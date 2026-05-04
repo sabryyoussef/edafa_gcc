@@ -39,15 +39,8 @@ class AccountAnalyticLine(models.Model):
         store=True
     )
     
-    # Department relation
-    department_id = fields.Many2one(
-        'hr.department',
-        string='Department',
-        related='employee_id.department_id',
-        store=True,
-        readonly=True
-    )
-    
+    # department_id: defined on account.analytic.line by hr_timesheet (employee department)
+
     # Payroll integration
     include_in_payroll = fields.Boolean(
         string='Include in Payroll',
