@@ -1,0 +1,202 @@
+<odoo>
+    <data>
+        <template id="report_tax_invoice_document">
+            <t t-call="web.external_layout">
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+                <t t-set="address">
+                    <div t-field="o.partner_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+                    <div t-if="o.partner_id.vat" class="mt-1">
+                        <t t-if="o.company_id.account_fiscal_country_id.vat_label" t-out="o.company_id.account_fiscal_country_id.vat_label"/>
+                        <t t-else="">Tax ID</t>: 
+                        <span t-field="o.partner_id.vat"/>
+                    </div>
+                </t>
+
+                <div class="page">
+                    <h2>
+                        <span t-if="o.move_type == 'out_invoice' and o.state == 'posted'">Tax Invoice</span>
+                        <span t-elif="o.move_type == 'out_invoice' and o.state == 'draft'">Draft Invoice</span>
+                        <span t-elif="o.move_type == 'out_refund'">Credit Note</span>
+                        <span t-elif="o.move_type == 'in_refund'">Vendor Credit Note</span>
+                        <span t-elif="o.move_type == 'in_invoice'">Vendor Bill</span>
+                    </h2>
+
+                    <div id="informations" class="row mt-4 mb-4">
+                        <div class="col-auto col-3 mw-100 mb-2">
+                            <strong>Invoice Date:</strong>
+                            <p class="m-0">
+                                <span t-field="o.invoice_date"/>
+                            </p>
+                        </div>
+                        <div class="col-auto col-3 mw-100 mb-2">
+                            <strong>Due Date:</strong>
+                            <p class="m-0">
+                                <span t-field="o.invoice_date_due"/>
+                            </p>
+                        </div>
+                        <div class="col-auto col-3 mw-100 mb-2" t-if="o.invoice_origin">
+                            <strong>Source:</strong>
+                            <p class="m-0">
+                                <span t-field="o.invoice_origin"/>
+                            </p>
+                        </div>
+                        <div class="col-auto col-3 mw-100 mb-2" t-if="o.ref">
+                            <strong>Reference:</strong>
+                            <p class="m-0">
+                                <span t-field="o.ref"/>
+                            </p>
+                        </div>
+                        <div class="col-auto col-3 mw-100 mb-2" t-if="o.x_contract_no">
+                            <strong>Contract No:</strong>
+                            <p class="m-0">
+                                <span t-field="o.x_contract_no"/>
+                            </p>
+                        </div>
+                    </div>
+
+                    <h3>Invoice To:</h3>
+                    <t t-out="address"/>
+
+                    <table class="table table-sm o_main_table mt-4">
+                        <thead>
+                            <tr>
+                                <th name="th_description" class="text-start"><span>Description</span></th>
+                                <th name="th_quantity" class="text-end"><span>Quantity</span></th>
+                                <th name="th_priceunit" class="text-end"><span>Unit Price</span></th>
+                                <th name="th_price_subtotal" class="text-end">
+                                    <span>Amount</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="invoice_tbody">
+                            <t t-set="current_subtotal" t-value="0"/>
+                            <t t-set="lines" t-value="o.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.date, l.name, -l.id), reverse=True)"/>
+
+                            <t t-foreach="lines" t-as="line">
+                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal"/>
+
+                                <tr t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''">
+                                    <t t-if="line.display_type == 'product'" name="account_invoice_line_accountable">
+                                        <td name="account_invoice_line_name"><span t-field="line.name" t-options="{'widget': 'text'}"/></td>
+                                        <td class="text-end">
+                                            <span t-field="line.quantity"/>
+                                            <span t-field="line.product_uom_id" groups="uom.group_uom"/>
+                                        </td>
+                                        <td class="text-end">
+                                            <span class="text-nowrap" t-field="line.price_unit"/>
+                                        </td>
+                                        <td class="text-end">
+                                            <span class="text-nowrap" t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                            <span class="text-nowrap" t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                                        </td>
+                                    </t>
+                                    <t t-elif="line.display_type == 'line_section'">
+                                        <td colspan="99">
+                                            <span t-field="line.name" t-options="{'widget': 'text'}"/>
+                                        </td>
+                                        <t t-set="current_section" t-value="line"/>
+                                        <t t-set="current_subtotal" t-value="0"/>
+                                    </t>
+                                    <t t-elif="line.display_type == 'line_note'">
+                                        <td colspan="99">
+                                            <span t-field="line.name" t-options="{'widget': 'text'}"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <div class="clearfix">
+                        <div id="total" class="row">
+                            <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto">
+                                <table class="table table-sm table-borderless">
+                                    <!-- Subtotal -->
+                                    <tr class="border-black">
+                                        <td><strong>Subtotal</strong></td>
+                                        <td class="text-end">
+                                            <span t-field="o.amount_untaxed"/>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Taxes -->
+                                    <t t-foreach="o.amount_by_group" t-as="amount_by_group">
+                                        <tr>
+                                            <t t-if="len(o.line_ids.filtered(lambda line: line.tax_line_id)) in [0, 1] and o.amount_untaxed == amount_by_group[2]">
+                                                <td><span class="text-nowrap" t-out="amount_by_group[0]"/></td>
+                                                <td class="text-end o_price_total">
+                                                    <span class="text-nowrap" t-out="amount_by_group[3]"/>
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td>
+                                                    <span t-out="amount_by_group[0]"/>
+                                                    <span class="text-nowrap"> on
+                                                        <t t-out="amount_by_group[4]"/>
+                                                    </span>
+                                                </td>
+                                                <td class="text-end o_price_total">
+                                                    <span class="text-nowrap" t-out="amount_by_group[3]"/>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                    </t>
+
+                                    <!-- Total -->
+                                    <tr class="border-black o_total">
+                                        <td><strong>Total</strong></td>
+                                        <td class="text-end">
+                                            <span class="text-nowrap" t-field="o.amount_total"/>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Retention -->
+                                    <tr t-if="o.x_retention != 0" class="text-danger">
+                                        <td><strong>Retention</strong></td>
+                                        <td class="text-end">
+                                            <span class="text-nowrap" t-field="o.x_retention"/>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Performance Bond -->
+                                    <tr t-if="o.x_performance_bond != 0" class="text-danger">
+                                        <td><strong>Performance Bond</strong></td>
+                                        <td class="text-end">
+                                            <span class="text-nowrap" t-field="o.x_performance_bond"/>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Net Amount (if retention or performance bond exists) -->
+                                    <tr t-if="o.x_retention != 0 or o.x_performance_bond != 0" class="border-black o_total">
+                                        <td><strong>Net Amount</strong></td>
+                                        <td class="text-end">
+                                            <span class="text-nowrap" t-field="o.x_net_amount"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div t-if="o.narration" class="mt-4">
+                        <strong>Terms and Conditions:</strong>
+                        <p t-field="o.narration"/>
+                    </div>
+
+                    <div t-if="o.fiscal_position_id.note" class="mt-4">
+                        <strong>Fiscal Position Remark:</strong>
+                        <p t-field="o.fiscal_position_id.note"/>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_tax_invoice">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="mermaid_tax_invoice_odoo19.report_tax_invoice_document" t-lang="o.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<delivery_note>
+    <header>
+        <title>DELIVERY NOTE</title>
+    </header>
+    <customer_information>
+        <name>Thermon Middle East W.L.L.</name>
+        <address>
+            <line>Manama Center, 3rd Floor, Suite: 304, Entrance 2</line>
+            <po_box>P. O. Box 2911</po_box>
+            <city>Manama 608</city>
+            <country>Kingdom of Bahrain</country>
+            <phone>Tel.: +973 17217468</phone>
+            <fax>Fax: +973 17217469</fax>
+        </address>
+    </customer_information>
+    <consignee_information>
+        <name>Faredh Arabian Trading &amp; Contracting Co.</name>
+        <address>
+            <po_box>P. O. Box 9673</po_box>
+            <city>Dammam 31423</city>
+            <country>Kingdom of Saudi Arabia</country>
+        </address>
+    </consignee_information>
+    <delivery_details>
+        <delivery_note_number>000188</delivery_note_number>
+        <delivery_note_date>20/07/2019</delivery_note_date>
+        <purchase_order_number>46PO000820-6</purchase_order_number>
+        <purchase_order_date>18/07/2019</purchase_order_date>
+        <customer_reference>N/A</customer_reference>
+        <customer_reference_date>N/A</customer_reference_date>
+        <consignee_reference>N/A</consignee_reference>
+        <delivery_mode>Road</delivery_mode>
+        <sales_man>Shihas Ali</sales_man>
+    </delivery_details>
+    <items>
+        <item>
+            <serial_number>1</serial_number>
+            <item_code>436</item_code>
+            <description>Channel, Rigid Galvanized Steel, 4 Foot (1.22 M), Fits 3/8" (8 MM) or 1/2" (12 MM) O.D. Tracer Tube.</description>
+            <quantity>15,000.00</quantity>
+            <unit>Pcs</unit>
+        </item>
+    </items>
+    <summary>
+        <total_quantity_delivered>15,000.00</total_quantity_delivered>
+    </summary>
+    <footer>
+        <note>I received the above materials in good conditions. Open packages are not exchangeable.</note>
+        <store_number>2050076712</store_number>
+        <delivered_by>2050033949 Faredh Arabian Trading &amp; Contracting Co.</delivered_by>
+    </footer>
+</delivery_note>

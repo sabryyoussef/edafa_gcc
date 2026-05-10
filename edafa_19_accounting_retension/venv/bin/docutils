@@ -1,0 +1,7 @@
+#!/home/sabry3/sabry_backup/odoo_base/base_odoo_19/projects/edafa_19_accounting_retension/venv/bin/python3
+import sys
+from docutils.__main__ import main
+if __name__ == '__main__':
+    if sys.argv[0].endswith('.exe'):
+        sys.argv[0] = sys.argv[0][:-4]
+    sys.exit(main())

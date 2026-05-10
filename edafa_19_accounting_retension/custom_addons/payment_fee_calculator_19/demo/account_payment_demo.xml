@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Note: Demo payment data has been removed because it requires pre-existing journals.
+             To test the payment fee calculator:
+             1. Create journals with "Mada", "Visa", or "Mastercard" in the name
+             2. Configure fee rates in Accounting → Configuration → Journals
+             3. Create payments and observe automatic fee calculation
+             
+             See USER_GUIDE.md for detailed instructions and examples.
+        -->
+        
+        <record id="demo_payment_note" model="ir.config_parameter">
+            <field name="key">payment_fee_calculator_19.demo_payment_note</field>
+            <field name="value">To test payment fees: 1) Create journals with 'Mada', 'Visa', or 'Mastercard' in name, 2) Configure fees, 3) Create payments</field>
+        </record>
+
+    </data>
+</odoo>

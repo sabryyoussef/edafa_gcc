@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tax_invoice>
+    <header>
+        <title>TAX INVOICE</title>
+        <vat_number>300762585600003</vat_number>
+        <vat_number_arabic>الرقم الضريبي لشركة فارض</vat_number_arabic>
+    </header>
+    <buyer_customer>
+        <name>TTSJV W.L.L</name>
+        <vat_number>300762585600003</vat_number>
+        <founded_year>1983</founded_year>
+        <invoice_number>076551C-SPO-54440 Rev.08</invoice_number>
+        <invoice_date>09/07/2025</invoice_date>
+        <po_box>P. O. Box 25555 Awali Kingdom Of Bahrain</po_box>
+        <po_date>29/03/2025</po_date>
+        <supply_reference>Supply to TTSJV PO#54440</supply_reference>
+        <address>
+            <line>28110Muharraq Block215, Rd1531811130F12 Bahrain</line>
+        </address>
+    </buyer_customer>
+    <contact_information>
+        <telegram>Telegram</telegram>
+        <telephone>Telephone</telephone>
+        <email>Email</email>
+        <phone>Phone</phone>
+    </contact_information>
+</tax_invoice>

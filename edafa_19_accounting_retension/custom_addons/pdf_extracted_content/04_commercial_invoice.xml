@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<commercial_invoice>
+    <header>
+        <title>Commercial Invoice</title>
+        <title_arabic>فاتورة تجارية</title_arabic>
+        <vat_number>300762585600003</vat_number>
+        <vat_number_arabic>الرقم الضريبي:</vat_number_arabic>
+    </header>
+    <applicant_information>
+        <name>ALZAMIL HEAVY INDUSTRIES LTD.</name>
+        <address>
+            <line>7547 PRINCE SULTAN ROAD, AS SALAMAH DISTRICT,</line>
+            <line>JEDDAH 23437, SALAMA CENTER TOWER B1 2ND FLR,KSA</line>
+        </address>
+        <phone>Tel.: 6940207</phone>
+    </applicant_information>
+    <beneficiary_information>
+        <name>FAFED: WWW.BANTHOCP.GHICICCHIWC20.CD</name>
+        <address>
+            <po_box>PO BOX: 9673 DAMMAM</po_box>
+            <phone>TEL: 96638506000</phone>
+            <email>EMAIL: NAFEESS@FRREDIH.COM</email>
+        </address>
+    </beneficiary_information>
+    <invoice_details>
+        <invoice_number>Invoice No.:</invoice_number>
+        <invoice_date>Invoice Date:</invoice_date>
+        <lc_number>L/C No.:</lc_number>
+        <date_of_issue>Date of Issue:</date_of_issue>
+        <issuing_bank>Issuing Bank:</issuing_bank>
+        <no_of_amendment>No of Amendment:</no_of_amendment>
+        <date_of_expiry>Date of Expiry:</date_of_expiry>
+        <snb_bank_ref>SNB Bank Ref.:</snb_bank_ref>
+        <snb_ref_date>SNB Ref. Date:</snb_ref_date>
+    </invoice_details>
+    <items>
+        <item>
+            <serial_number>10</serial_number>
+            <description>SUPPLY AND APPLY INTERNAL COATING 20NOS OF AQU 338 SGM-REMINING 75%</description>
+            <description_full>INTERNAL PAINTING SERVICES FOR PO NO.2500-0096 LC MENTIONED PO NO.2502-0096</description_full>
+            <quantity>135.2</quantity>
+            <unit>EA</unit>
+            <price>1,768,810</price>
+            <currency>SAR</currency>
+            <amount>239,143.11</amount>
+        </item>
+    </items>
+    <summary>
+        <advance_payment>
+            <percentage>-25% ADVANCE</percentage>
+            <amount>-59,785.78</amount>
+        </advance_payment>
+        <total_before_vat>179,357.33</total_before_vat>
+        <vat_amount>26,903.60</vat_amount>
+        <total_amount>206,260.93</total_amount>
+        <currency>SAR</currency>
+    </summary>
+    <shipping_information>
+        <place_of_taking_in_charge>BENEFICIARY FACTORY, DAMMAM, KSA</place_of_taking_in_charge>
+        <place_of_final_destination>ALZAMIL FACTORY, RABIGH, KSA</place_of_final_destination>
+    </shipping_information>
+    <signatures>
+        <signature_1>
+            <for>For Faredh Arabian For Contracting.</for>
+            <name>MR. (DANISH FARAZ)</name>
+            <signature>Signature:</signature>
+            <date>Date:</date>
+        </signature_1>
+        <signature_2>
+            <for>For ALZAMIL HEAVY INDUSTRIES LTD.</for>
+            <name>KHALID ALZAMIL</name>
+            <signature>Signature:</signature>
+            <stamp>Stamp:</stamp>
+            <date>Date:</date>
+        </signature_2>
+        <confirmation>CONFIRMING THAT GOODS HAVE BEEN DELIVERED IN GOOD ORDER AND CONDITION</confirmation>
+    </signatures>
+    <footer>
+        <company_name>Faredh Arabian Trading &amp; Contracting Company</company_name>
+        <cr_number>C.R. 2050033949</cr_number>
+        <contact>
+            <phone>Tel.: +966 13 850 6000</phone>
+            <fax>Fax: +966 13 850 4888</fax>
+        </contact>
+        <address>
+            <city>Dammam 34265 - 3085</city>
+            <country>Kingdom of Saudi Arabia</country>
+        </address>
+    </footer>
+</commercial_invoice>

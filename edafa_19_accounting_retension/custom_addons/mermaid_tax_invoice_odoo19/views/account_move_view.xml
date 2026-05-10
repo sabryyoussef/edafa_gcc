@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+        <!-- Extend Invoice Form View -->
+        <record id="view_move_form_retention_bond" model="ir.ui.view">
+            <field name="name">account.move.form.retention.bond</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <!-- Add Contract No field after partner_id -->
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="x_contract_no" placeholder="e.g., CTR-2025-001"/>
+                </xpath>
+                
+                <!-- Add Retention and Performance Bond fields in the totals section -->
+                <xpath expr="//field[@name='amount_residual']" position="after">
+                    <field name="x_retention" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <field name="x_performance_bond" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <field name="x_net_amount" widget="monetary" options="{'currency_field': 'currency_id'}" class="oe_subtotal_footer_separator"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

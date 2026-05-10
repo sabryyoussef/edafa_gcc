@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Note: This demo data updates existing Bank journal with fee configurations.
+             If the default Bank journal doesn't exist, these records will be skipped.
+             You can manually create journals and apply these fee settings. -->
+        
+        <!-- Update default Bank journal with Mada fees (if exists) -->
+        <function model="account.journal" name="search">
+            <value eval="[('type', '=', 'bank'), ('code', '=', 'BNK1')]"/>
+        </function>
+        
+        <record id="demo_fee_config_note" model="ir.config_parameter">
+            <field name="key">payment_fee_calculator_19.demo_note</field>
+            <field name="value">Demo data loaded. Configure payment fees in Accounting → Configuration → Journals</field>
+        </record>
+
+    </data>
+</odoo>

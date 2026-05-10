@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_journal_form_payment_fee" model="ir.ui.view">
+        <field name="name">account.journal.form.payment.fee</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='bank_account_number']" position="after">
+                <!-- New section for payment card fee settings -->
+                <group string="Payment Card Fees (Custom)" invisible="type != 'bank' and type != 'cash'">
+                    <!-- Visa and Mastercard fees -->
+                    <label for="visa_master_fee_pct" string="Visa &amp; Mastercard Fee"/>
+                    <div>
+                        <field name="visa_master_fee_pct" class="oe_inline"/>
+                        <span class="oe_inline">% (Flat)</span>
+                        <div class="text-muted">Applied to all amounts.</div>
+                    </div>
+                    <!-- Mada fees - Limit and tiered fees -->
+                    <label for="mada_low_fee_pct" string="Mada Fee Structure"/>
+                    <group colspan="2">
+                        <div class="o_row">
+                            <field name="mada_low_fee_limit" class="oe_inline"/>
+                            <span class="oe_inline">SAR Limit</span>
+                        </div>
+
+                        <label for="mada_low_fee_pct" string="&lt; Limit Fee"/>
+                        <div>
+                            <field name="mada_low_fee_pct" class="oe_inline"/>
+                            <span class="oe_inline">% (Default: 0.8%)</span>
+                        </div>
+
+                        <label for="mada_high_fee_fixed" string="&gt;= Limit Fee"/>
+                        <div>
+                            <field name="mada_high_fee_fixed" class="oe_inline"/>
+                            <span class="oe_inline">SAR (Fixed - Default: 40 SAR)</span>
+                        </div>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

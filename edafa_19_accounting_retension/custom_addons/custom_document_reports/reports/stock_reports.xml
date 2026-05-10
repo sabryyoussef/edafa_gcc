@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Delivery Note Report -->
+    <record id="action_report_delivery_note_custom" model="ir.actions.report">
+        <field name="name">Delivery Note (Custom)</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">custom_document_reports.report_delivery_note_custom</field>
+        <field name="report_file">custom_document_reports.report_delivery_note_custom</field>
+        <field name="print_report_name">'Delivery Note - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="stock.model_stock_picking"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Packing List Report -->
+    <record id="action_report_packing_list_custom" model="ir.actions.report">
+        <field name="name">Packing List (Custom)</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">custom_document_reports.report_packing_list_custom</field>
+        <field name="report_file">custom_document_reports.report_packing_list_custom</field>
+        <field name="print_report_name">'Packing List - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="stock.model_stock_picking"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Delivery Note Template -->
+    <template id="report_delivery_note_custom">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <div class="row">
+                            <div class="col-12">
+                                <h2 class="text-center">DELIVERY NOTE</h2>
+                            </div>
+                        </div>
+                        
+                        <!-- Customer Information -->
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <strong>Customer's Name &amp; Address:</strong>
+                                <p t-field="o.partner_id.name"/>
+                                <p t-field="o.partner_id.street"/>
+                                <p t-if="o.partner_id.street2" t-field="o.partner_id.street2"/>
+                                <p>
+                                    <span t-field="o.partner_id.city"/>
+                                    <span t-if="o.partner_id.zip">, <span t-field="o.partner_id.zip"/></span>
+                                </p>
+                                <p t-field="o.partner_id.country_id.name"/>
+                                <p t-if="o.partner_id.phone">Tel.: <span t-field="o.partner_id.phone"/></p>
+                            </div>
+                        </div>
+                        
+                        <!-- Consignee Information -->
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <strong>Consignee's Name &amp; Address:</strong>
+                                <p t-if="o.location_dest_id.partner_id" t-field="o.location_dest_id.partner_id.name"/>
+                                <p t-if="o.location_dest_id.partner_id" t-field="o.location_dest_id.partner_id.street"/>
+                                <p t-if="o.location_dest_id.partner_id and o.location_dest_id.partner_id.city">
+                                    <span t-field="o.location_dest_id.partner_id.city"/>
+                                    <span t-if="o.location_dest_id.partner_id.zip">, <span t-field="o.location_dest_id.partner_id.zip"/></span>
+                                </p>
+                                <p t-if="o.location_dest_id.partner_id" t-field="o.location_dest_id.partner_id.country_id.name"/>
+                            </div>
+                        </div>
+                        
+                        <!-- Delivery Note Details -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <strong>Delivery Note Details:</strong>
+                                <table class="table table-sm table-borderless">
+                                    <tr>
+                                        <td><strong>Delivery Note No.:</strong></td>
+                                        <td><span t-field="o.name"/></td>
+                                        <td><strong>Delivery Note Date:</strong></td>
+                                        <td><span t-field="o.scheduled_date" t-options="{'widget': 'date'}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Purchase Order No.:</strong></td>
+                                        <td><span t-field="o.origin"/></td>
+                                        <td><strong>Purchase Order Date:</strong></td>
+                                        <td><span t-if="o.sale_id" t-field="o.sale_id.date_order" t-options="{'widget': 'date'}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Customer Reference:</strong></td>
+                                        <td><span t-if="o.sale_id and o.sale_id.client_order_ref" t-field="o.sale_id.client_order_ref"/></td>
+                                        <td t-if="not o.sale_id or not o.sale_id.client_order_ref">N/A</td>
+                                        <td><strong>Customer Reference Date:</strong></td>
+                                        <td>N/A</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Consignee Reference:</strong></td>
+                                        <td>N/A</td>
+                                        <td><strong>Delivery Mode:</strong></td>
+                                        <td><span t-if="o.carrier_id" t-field="o.carrier_id.name"/></td>
+                                        <td t-if="not o.carrier_id">Road</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Sales Man:</strong></td>
+                                        <td><span t-if="o.sale_id and o.sale_id.user_id" t-field="o.sale_id.user_id.name"/></td>
+                                        <td t-if="not o.sale_id or not o.sale_id.user_id">N/A</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Items Table -->
+                        <div class="row mt-4">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>SN</th>
+                                        <th>Item Code</th>
+                                        <th>Item Description</th>
+                                        <th class="text-right">Quantity</th>
+                                        <th>Unit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="line_num" t-value="1"/>
+                                    <t t-foreach="o.move_ids_without_package" t-as="move">
+                                        <tr>
+                                            <td><t t-esc="line_num"/></td>
+                                            <td><span t-field="move.product_id.default_code"/></td>
+                                            <td><span t-field="move.product_id.name"/></td>
+                                            <td class="text-right"><span t-field="move.quantity_done"/></td>
+                                            <td><span t-field="move.product_id.uom_id.name"/></td>
+                                        </tr>
+                                        <t t-set="line_num" t-value="line_num + 1"/>
+                                    </t>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3" class="text-right"><strong>Total Qty. Delivered</strong></td>
+                                        <td class="text-right">
+                                            <t t-esc="sum([move.quantity_done for move in o.move_ids_without_package])"/>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        
+                        <!-- Footer -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <p><strong>I received the above materials in good conditions. Open packages are not exchangeable.</strong></p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <p><strong>Store-Number:</strong></p>
+                                <p t-if="o.company_id.phone" t-field="o.company_id.phone"/>
+                            </div>
+                            <div class="col-6 text-right">
+                                <p><strong>Delivered by:</strong></p>
+                                <p t-field="o.company_id.name"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Packing List Template -->
+    <template id="report_packing_list_custom">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <div class="row">
+                            <div class="col-12">
+                                <h2 class="text-center">PACKING LIST</h2>
+                                <h3 class="text-center" style="direction: rtl;">قائمة التعبئة</h3>
+                            </div>
+                        </div>
+                        
+                        <!-- VAT Information -->
+                        <div class="row mt-3">
+                            <div class="col-12 text-right">
+                                <strong>VAT No.:</strong>
+                                <span t-field="o.company_id.vat"/>
+                            </div>
+                        </div>
+                        
+                        <!-- Applicant Information -->
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <strong>Applicant Name &amp; Address:</strong>
+                                <p t-field="o.company_id.name"/>
+                                <p t-field="o.company_id.street"/>
+                                <p t-if="o.company_id.street2" t-field="o.company_id.street2"/>
+                                <p>
+                                    <span t-field="o.company_id.city"/>
+                                    <span t-if="o.company_id.zip">, <span t-field="o.company_id.zip"/></span>
+                                </p>
+                                <p t-field="o.company_id.country_id.name"/>
+                                <p t-if="o.company_id.phone">Tel.: <span t-field="o.company_id.phone"/></p>
+                                <p><strong>Applicant VAT No.:</strong> <span t-field="o.company_id.vat"/></p>
+                            </div>
+                            <div class="col-6 text-right">
+                                <table class="table table-sm table-borderless">
+                                    <tr>
+                                        <td><strong>Packing list Date:</strong></td>
+                                        <td><span t-field="o.scheduled_date" t-options="{'widget': 'date'}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>U/C No.:</strong></td>
+                                        <td><span t-field="o.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Issue Date:</strong></td>
+                                        <td><span t-field="o.scheduled_date" t-options="{'widget': 'date'}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Issuing Bank:</strong></td>
+                                        <td>N/A</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>PO No.</strong></td>
+                                        <td><span t-field="o.origin"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Items Table -->
+                        <div class="row mt-4">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>SN</th>
+                                        <th>Description of Goods and or Services<br/>وصف البضاعة و او الخدمات</th>
+                                        <th class="text-right">Qty.<br/>الكمية</th>
+                                        <th>Unit<br/>الوحدة</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="line_num" t-value="1"/>
+                                    <t t-foreach="o.move_ids_without_package" t-as="move">
+                                        <tr>
+                                            <td><t t-esc="line_num"/></td>
+                                            <td><span t-field="move.product_id.name"/></td>
+                                            <td class="text-right"><span t-field="move.quantity_done"/></td>
+                                            <td><span t-field="move.product_id.uom_id.name"/></td>
+                                        </tr>
+                                        <t t-set="line_num" t-value="line_num + 1"/>
+                                    </t>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="2" class="text-right"><strong>TOTAL PACKING</strong></td>
+                                        <td class="text-right">
+                                            <t t-esc="sum([move.quantity_done for move in o.move_ids_without_package])"/>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        
+                        <!-- Pack Information -->
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <table class="table table-sm table-borderless">
+                                    <tr>
+                                        <td><strong>Pack Type:</strong></td>
+                                        <td>LOT</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>NO. of Pack:</strong></td>
+                                        <td>
+                                            <t t-esc="len(o.package_ids) if o.package_ids else 1"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Signatures -->
+                        <div class="row mt-5">
+                            <div class="col-6">
+                                <p><strong>Applicant</strong></p>
+                                <p>For <span t-field="o.partner_id.name"/></p>
+                                <p><strong>Signature:</strong> _________________</p>
+                                <p><strong>Stamp:</strong> _________________</p>
+                                <p><strong>Date:</strong> _________________</p>
+                            </div>
+                            <div class="col-6">
+                                <p><strong>Signature 1:</strong> _________________</p>
+                                <p><strong>Signature 2:</strong> _________________</p>
+                                <p><strong>Stamp:</strong> _________________</p>
+                                <p><strong>Date:</strong> _________________</p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

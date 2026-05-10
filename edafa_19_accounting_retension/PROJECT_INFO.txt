@@ -1,0 +1,20 @@
+Project: edafa_19_accounting_retension
+Database: edafa_19_accounting_retension_dev
+Port: 8020
+URL: http://localhost:8020
+
+Created: 2025-12-12
+Type: Accounting Retention Project
+
+Custom Modules:
+- custom_document_reports
+- payment_fee_calculator
+- payment_fee_calculator_19
+- pdf_extracted_content
+
+Quick Start:
+  cd /home/sabry3/sabry_backup/odoo_base/base_odoo_19/projects/edafa_19_accounting_retension
+  ./scripts/start.sh
+
+  Access at: http://localhost:8020
+  Database: edafa_19_accounting_retension_dev

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<packing_list>
+    <header>
+        <title>PACKING LIST</title>
+        <title_arabic>قائمة التعبئة</title_arabic>
+    </header>
+    <vat_information>
+        <vat_number>300762585600003</vat_number>
+    </vat_information>
+    <applicant_information>
+        <name>AL ZAMIL HEAVY INDUSTRIES</name>
+        <address>
+            <line>BUILDING B1, 2ND FLOOR, SALAMAH</line>
+            <line>CENTER 7547 PRINCE SULTAN ROAD.</line>
+            <line>AS SALAMAH DISTRICT, JEDDAH, K.S.A</line>
+        </address>
+        <phone>Tel.: 6940207</phone>
+        <vat_number>300182764500003</vat_number>
+    </applicant_information>
+    <packing_list_details>
+        <packing_list_number>P. 0389</packing_list_number>
+        <packing_list_date>17/05/2022</packing_list_date>
+        <uc_number>1204297</uc_number>
+        <date_of_issue>16/05/2022</date_of_issue>
+        <issuing_bank>SNB (NCB)</issuing_bank>
+        <expiry_date>01/12/2022</expiry_date>
+        <bank_jaz_ref>C-0885-22-7119-ADED</bank_jaz_ref>
+        <ncb_ref_date>16/05/2022</ncb_ref_date>
+        <po_number>23950059/1</po_number>
+    </packing_list_details>
+    <items>
+        <item>
+            <serial_number>10</serial_number>
+            <description>INTERNAL PAINTING SERVICES</description>
+            <description_arabic>وصف البضاعة و او الخدمات</description_arabic>
+            <quantity>0.15</quantity>
+            <unit>EA</unit>
+        </item>
+    </items>
+    <summary>
+        <total_packing>0.15</total_packing>
+        <pack_type>LOT</pack_type>
+        <number_of_packs>1</number_of_packs>
+    </summary>
+    <signatures>
+        <applicant>
+            <for>Faredh Arabian For Contracting.</for>
+            <signature>Signature:</signature>
+            <stamp>Stamp:</stamp>
+            <date>Date:</date>
+        </applicant>
+        <signature_1>
+            <signature>Signature 1:</signature>
+        </signature_1>
+        <signature_2>
+            <signature>Signature 2:</signature>
+            <stamp>Stamp:</stamp>
+            <date>Date:</date>
+        </signature_2>
+    </signatures>
+</packing_list>

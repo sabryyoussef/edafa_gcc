@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <metadata>
+        <source_file>CamScanner 09-12-2025 21.48.pdf</source_file>
+        <extraction_date>2025-01-12</extraction_date>
+        <total_pages>5</total_pages>
+    </metadata>
+    
+    <!-- DELIVERY NOTE -->
+    <delivery_note>
+        <header>
+            <title>DELIVERY NOTE</title>
+        </header>
+        <customer_information>
+            <name>Thermon Middle East W.L.L.</name>
+            <address>
+                <line>Manama Center, 3rd Floor, Suite: 304, Entrance 2</line>
+                <po_box>P. O. Box 2911</po_box>
+                <city>Manama 608</city>
+                <country>Kingdom of Bahrain</country>
+                <phone>Tel.: +973 17217468</phone>
+                <fax>Fax: +973 17217469</fax>
+            </address>
+        </customer_information>
+        <consignee_information>
+            <name>Faredh Arabian Trading &amp; Contracting Co.</name>
+            <address>
+                <po_box>P. O. Box 9673</po_box>
+                <city>Dammam 31423</city>
+                <country>Kingdom of Saudi Arabia</country>
+            </address>
+        </consignee_information>
+        <delivery_details>
+            <delivery_note_number>000188</delivery_note_number>
+            <delivery_note_date>20/07/2019</delivery_note_date>
+            <purchase_order_number>46PO000820-6</purchase_order_number>
+            <purchase_order_date>18/07/2019</purchase_order_date>
+            <customer_reference>N/A</customer_reference>
+            <customer_reference_date>N/A</customer_reference_date>
+            <consignee_reference>N/A</consignee_reference>
+            <delivery_mode>Road</delivery_mode>
+            <sales_man>Shihas Ali</sales_man>
+        </delivery_details>
+        <items>
+            <item>
+                <serial_number>1</serial_number>
+                <item_code>436</item_code>
+                <description>Channel, Rigid Galvanized Steel, 4 Foot (1.22 M), Fits 3/8" (8 MM) or 1/2" (12 MM) O.D. Tracer Tube.</description>
+                <quantity>15,000.00</quantity>
+                <unit>Pcs</unit>
+            </item>
+        </items>
+        <summary>
+            <total_quantity_delivered>15,000.00</total_quantity_delivered>
+        </summary>
+        <footer>
+            <note>I received the above materials in good conditions. Open packages are not exchangeable.</note>
+            <store_number>2050076712</store_number>
+            <delivered_by>2050033949 Faredh Arabian Trading &amp; Contracting Co.</delivered_by>
+        </footer>
+    </delivery_note>
+    
+    <!-- PACKING LIST -->
+    <packing_list>
+        <header>
+            <title>PACKING LIST</title>
+            <title_arabic>قائمة التعبئة</title_arabic>
+        </header>
+        <vat_information>
+            <vat_number>300762585600003</vat_number>
+        </vat_information>
+        <applicant_information>
+            <name>AL ZAMIL HEAVY INDUSTRIES</name>
+            <address>
+                <line>BUILDING B1, 2ND FLOOR, SALAMAH</line>
+                <line>CENTER 7547 PRINCE SULTAN ROAD.</line>
+                <line>AS SALAMAH DISTRICT, JEDDAH, K.S.A</line>
+            </address>
+            <phone>Tel.: 6940207</phone>
+            <vat_number>300182764500003</vat_number>
+        </applicant_information>
+        <packing_list_details>
+            <packing_list_number>P. 0389</packing_list_number>
+            <packing_list_date>17/05/2022</packing_list_date>
+            <uc_number>1204297</uc_number>
+            <date_of_issue>16/05/2022</date_of_issue>
+            <issuing_bank>SNB (NCB)</issuing_bank>
+            <expiry_date>01/12/2022</expiry_date>
+            <bank_jaz_ref>C-0885-22-7119-ADED</bank_jaz_ref>
+            <ncb_ref_date>16/05/2022</ncb_ref_date>
+            <po_number>23950059/1</po_number>
+        </packing_list_details>
+        <items>
+            <item>
+                <serial_number>10</serial_number>
+                <description>INTERNAL PAINTING SERVICES</description>
+                <quantity>0.15</quantity>
+                <unit>EA</unit>
+            </item>
+        </items>
+        <summary>
+            <total_packing>0.15</total_packing>
+            <pack_type>LOT</pack_type>
+            <number_of_packs>1</number_of_packs>
+        </summary>
+        <signatures>
+            <applicant>
+                <for>Faredh Arabian For Contracting.</for>
+                <signature>Signature:</signature>
+                <stamp>Stamp:</stamp>
+                <date>Date:</date>
+            </applicant>
+            <signature_1>
+                <signature>Signature 1:</signature>
+            </signature_1>
+            <signature_2>
+                <signature>Signature 2:</signature>
+                <stamp>Stamp:</stamp>
+                <date>Date:</date>
+            </signature_2>
+        </signatures>
+    </packing_list>
+    
+    <!-- TAX INVOICE -->
+    <tax_invoice>
+        <header>
+            <title>TAX INVOICE</title>
+            <vat_number>300762585600003</vat_number>
+            <vat_number_arabic>الرقم الضريبي لشركة فارض</vat_number_arabic>
+        </header>
+        <buyer_customer>
+            <name>TTSJV W.L.L</name>
+            <vat_number>300762585600003</vat_number>
+            <founded_year>1983</founded_year>
+            <invoice_number>076551C-SPO-54440 Rev.08</invoice_number>
+            <invoice_date>09/07/2025</invoice_date>
+            <po_box>P. O. Box 25555 Awali Kingdom Of Bahrain</po_box>
+            <po_date>29/03/2025</po_date>
+            <supply_reference>Supply to TTSJV PO#54440</supply_reference>
+            <address>
+                <line>28110Muharraq Block215, Rd1531811130F12 Bahrain</line>
+            </address>
+        </buyer_customer>
+        <contact_information>
+            <telegram>Telegram</telegram>
+            <telephone>Telephone</telephone>
+            <email>Email</email>
+            <phone>Phone</phone>
+        </contact_information>
+    </tax_invoice>
+    
+    <!-- COMMERCIAL INVOICE -->
+    <commercial_invoice>
+        <header>
+            <title>Commercial Invoice</title>
+            <title_arabic>فاتورة تجارية</title_arabic>
+            <vat_number>300762585600003</vat_number>
+            <vat_number_arabic>الرقم الضريبي:</vat_number_arabic>
+        </header>
+        <applicant_information>
+            <name>ALZAMIL HEAVY INDUSTRIES LTD.</name>
+            <address>
+                <line>7547 PRINCE SULTAN ROAD, AS SALAMAH DISTRICT,</line>
+                <line>JEDDAH 23437, SALAMA CENTER TOWER B1 2ND FLR,KSA</line>
+            </address>
+            <phone>Tel.: 6940207</phone>
+        </applicant_information>
+        <beneficiary_information>
+            <name>FAFED: WWW.BANTHOCP.GHICICCHIWC20.CD</name>
+            <address>
+                <po_box>PO BOX: 9673 DAMMAM</po_box>
+                <phone>TEL: 96638506000</phone>
+                <email>EMAIL: NAFEESS@FRREDIH.COM</email>
+            </address>
+        </beneficiary_information>
+        <invoice_details>
+            <invoice_number>Invoice No.:</invoice_number>
+            <invoice_date>Invoice Date:</invoice_date>
+            <lc_number>L/C No.:</lc_number>
+            <date_of_issue>Date of Issue:</date_of_issue>
+            <issuing_bank>Issuing Bank:</issuing_bank>
+            <no_of_amendment>No of Amendment:</no_of_amendment>
+            <date_of_expiry>Date of Expiry:</date_of_expiry>
+            <snb_bank_ref>SNB Bank Ref.:</snb_bank_ref>
+            <snb_ref_date>SNB Ref. Date:</snb_ref_date>
+        </invoice_details>
+        <items>
+            <item>
+                <serial_number>10</serial_number>
+                <description>SUPPLY AND APPLY INTERNAL COATING 20NOS OF AQU 338 SGM-REMINING 75%</description>
+                <description_full>INTERNAL PAINTING SERVICES FOR PO NO.2500-0096 LC MENTIONED PO NO.2502-0096</description_full>
+                <quantity>135.2</quantity>
+                <unit>EA</unit>
+                <price>1,768,810</price>
+                <currency>SAR</currency>
+                <amount>239,143.11</amount>
+            </item>
+        </items>
+        <summary>
+            <advance_payment>
+                <percentage>-25% ADVANCE</percentage>
+                <amount>-59,785.78</amount>
+            </advance_payment>
+            <total_before_vat>179,357.33</total_before_vat>
+            <vat_amount>26,903.60</vat_amount>
+            <total_amount>206,260.93</total_amount>
+            <currency>SAR</currency>
+        </summary>
+        <shipping_information>
+            <place_of_taking_in_charge>BENEFICIARY FACTORY, DAMMAM, KSA</place_of_taking_in_charge>
+            <place_of_final_destination>ALZAMIL FACTORY, RABIGH, KSA</place_of_final_destination>
+        </shipping_information>
+        <signatures>
+            <signature_1>
+                <for>For Faredh Arabian For Contracting.</for>
+                <name>MR. (DANISH FARAZ)</name>
+                <signature>Signature:</signature>
+                <date>Date:</date>
+            </signature_1>
+            <signature_2>
+                <for>For ALZAMIL HEAVY INDUSTRIES LTD.</for>
+                <name>KHALID ALZAMIL</name>
+                <signature>Signature:</signature>
+                <stamp>Stamp:</stamp>
+                <date>Date:</date>
+            </signature_2>
+            <confirmation>CONFIRMING THAT GOODS HAVE BEEN DELIVERED IN GOOD ORDER AND CONDITION</confirmation>
+        </signatures>
+        <footer>
+            <company_name>Faredh Arabian Trading &amp; Contracting Company</company_name>
+            <cr_number>C.R. 2050033949</cr_number>
+            <contact>
+                <phone>Tel.: +966 13 850 6000</phone>
+                <fax>Fax: +966 13 850 4888</fax>
+            </contact>
+            <address>
+                <city>Dammam 34265 - 3085</city>
+                <country>Kingdom of Saudi Arabia</country>
+            </address>
+        </footer>
+    </commercial_invoice>
+</document>

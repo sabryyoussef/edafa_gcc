@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_journal_payment_fee,account.journal.payment.fee,account.model_account_journal,account.group_account_user,1,1,1,1
+access_account_payment_payment_fee,account.payment.payment.fee,account.model_account_payment,account.group_account_user,1,1,1,1
+

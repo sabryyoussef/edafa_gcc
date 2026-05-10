@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tax Invoice Report -->
+    <record id="action_report_tax_invoice_custom" model="ir.actions.report">
+        <field name="name">Tax Invoice (Custom)</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">custom_document_reports.report_tax_invoice_custom</field>
+        <field name="report_file">custom_document_reports.report_tax_invoice_custom</field>
+        <field name="print_report_name">'Tax Invoice - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Commercial Invoice Report -->
+    <record id="action_report_commercial_invoice_custom" model="ir.actions.report">
+        <field name="name">Commercial Invoice (Custom)</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">custom_document_reports.report_commercial_invoice_custom</field>
+        <field name="report_file">custom_document_reports.report_commercial_invoice_custom</field>
+        <field name="print_report_name">'Commercial Invoice - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Tax Invoice Template -->
+    <template id="report_tax_invoice_custom">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <div class="row">
+                            <div class="col-12">
+                                <h2 class="text-center">TAX INVOICE</h2>
+                            </div>
+                        </div>
+                        
+                        <!-- VAT Information -->
+                        <div class="row mt-3">
+                            <div class="col-12 text-right">
+                                <strong>VAT No.:</strong>
+                                <span t-field="o.company_id.vat"/>
+                                <span style="direction: rtl; margin-right: 10px;">الرقم الضريبي لشركة فارض</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Buyer/Customer Information -->
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <strong>Buyer / Customer</strong>
+                                <p t-field="o.partner_id.name"/>
+                                <p t-if="o.partner_id.vat">
+                                    <strong>VAT No.:</strong> <span t-field="o.partner_id.vat"/>
+                                </p>
+                                <p t-if="o.partner_id.comment">
+                                    <strong>Founded:</strong> <span t-field="o.partner_id.comment"/>
+                                </p>
+                                <p t-field="o.partner_id.street"/>
+                                <p t-if="o.partner_id.street2" t-field="o.partner_id.street2"/>
+                                <p>
+                                    <span t-field="o.partner_id.city"/>
+                                    <span t-if="o.partner_id.zip">, <span t-field="o.partner_id.zip"/></span>
+                                </p>
+                                <p t-field="o.partner_id.country_id.name"/>
+                            </div>
+                            <div class="col-6 text-right">
+                                <table class="table table-sm table-borderless">
+                                    <tr>
+                                        <td><strong>Invoice Number:</strong></td>
+                                        <td><span t-field="o.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Invoice Date:</strong></td>
+                                        <td><span t-field="o.invoice_date" t-options="{'widget': 'date'}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>P. O. Box:</strong></td>
+                                        <td><span t-if="o.partner_id.street" t-field="o.partner_id.street"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>PO Date:</strong></td>
+                                        <td t-if="o.invoice_date"><span t-field="o.invoice_date" t-options="{'widget': 'date'}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Supply Reference:</strong></td>
+                                        <td><span t-field="o.ref"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Contact Information -->
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <table class="table table-sm table-borderless">
+                                    <tr>
+                                        <td><strong>Contact:</strong></td>
+                                        <td><span t-if="o.partner_id.comment" t-field="o.partner_id.comment"/></td>
+                                        <td><strong>Telephone:</strong></td>
+                                        <td><span t-if="o.partner_id.phone" t-field="o.partner_id.phone"/></td>
+                                        <td><strong>Email:</strong></td>
+                                        <td><span t-if="o.partner_id.email" t-field="o.partner_id.email"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Items Table -->
+                        <div class="row mt-4">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>SN</th>
+                                        <th>Description</th>
+                                        <th class="text-right">Quantity</th>
+                                        <th>Unit</th>
+                                        <th class="text-right">Unit Price</th>
+                                        <th class="text-right">Tax Rate</th>
+                                        <th class="text-right">Tax Amount</th>
+                                        <th class="text-right">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="line_num" t-value="1"/>
+                                    <t t-foreach="o.invoice_line_ids" t-as="line">
+                                        <tr>
+                                            <td><t t-esc="line_num"/></td>
+                                            <td><span t-field="line.name"/></td>
+                                            <td class="text-right"><span t-field="line.quantity"/></td>
+                                            <td><span t-field="line.product_uom_id.name"/></td>
+                                            <td class="text-right">
+                                                <span t-field="line.price_unit" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <t t-foreach="line.tax_ids" t-as="tax">
+                                                    <span t-esc="tax.amount"/>%
+                                                </t>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="line.price_total - line.price_subtotal" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="line.price_total" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                        <t t-set="line_num" t-value="line_num + 1"/>
+                                    </t>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="7" class="text-right"><strong>Subtotal (Excl. Tax):</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.amount_untaxed" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="7" class="text-right"><strong>Tax Amount:</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.amount_tax" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="7" class="text-right"><strong>Total (Incl. Tax):</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.amount_total" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Commercial Invoice Template -->
+    <template id="report_commercial_invoice_custom">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <div class="row">
+                            <div class="col-12">
+                                <h2 class="text-center">Commercial Invoice</h2>
+                                <h3 class="text-center" style="direction: rtl;">فاتورة تجارية</h3>
+                            </div>
+                        </div>
+                        
+                        <!-- VAT Information -->
+                        <div class="row mt-3">
+                            <div class="col-12 text-right">
+                                <strong>VAT No.:</strong>
+                                <span t-field="o.company_id.vat"/>
+                                <span style="direction: rtl; margin-right: 10px;">الرقم الضريبي:</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Applicant Information -->
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <strong>Applicant Name &amp; Address:</strong>
+                                <p t-field="o.company_id.name"/>
+                                <p t-field="o.company_id.street"/>
+                                <p t-if="o.company_id.street2" t-field="o.company_id.street2"/>
+                                <p>
+                                    <span t-field="o.company_id.city"/>
+                                    <span t-if="o.company_id.zip">, <span t-field="o.company_id.zip"/></span>
+                                </p>
+                                <p t-field="o.company_id.country_id.name"/>
+                                <p t-if="o.company_id.phone">Tel.: <span t-field="o.company_id.phone"/></p>
+                            </div>
+                        </div>
+                        
+                        <!-- Beneficiary Information -->
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <strong>Beneficiary Name and Address:</strong>
+                                <p t-field="o.partner_id.name"/>
+                                <p t-if="o.partner_id.street" t-field="o.partner_id.street"/>
+                                <p t-if="o.partner_id.phone">TEL: <span t-field="o.partner_id.phone"/></p>
+                                <p t-if="o.partner_id.email">EMAIL: <span t-field="o.partner_id.email"/></p>
+                            </div>
+                        </div>
+                        
+                        <!-- Invoice Details -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <table class="table table-sm table-borderless">
+                                    <tr>
+                                        <td><strong>Invoice No.:</strong></td>
+                                        <td><span t-field="o.name"/></td>
+                                        <td><strong>Invoice Date:</strong></td>
+                                        <td><span t-field="o.invoice_date" t-options="{'widget': 'date'}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>L/C No.:</strong></td>
+                                        <td>N/A</td>
+                                        <td><strong>Date of Issue:</strong></td>
+                                        <td><span t-field="o.invoice_date" t-options="{'widget': 'date'}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Issuing Bank:</strong></td>
+                                        <td>N/A</td>
+                                        <td><strong>No of Amendment:</strong></td>
+                                        <td>N/A</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Date of Expiry:</strong></td>
+                                        <td>N/A</td>
+                                        <td><strong>SNB Bank Ref.:</strong></td>
+                                        <td>N/A</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>SNB Ref. Date:</strong></td>
+                                        <td>N/A</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Items Table -->
+                        <div class="row mt-4">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>SN</th>
+                                        <th>Description of Goods and or Services<br/>وصف البضاعة و او الخدمات</th>
+                                        <th class="text-right">Qty.</th>
+                                        <th>Unit:</th>
+                                        <th class="text-right">Price:</th>
+                                        <th class="text-right">Amount:</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="line_num" t-value="1"/>
+                                    <t t-foreach="o.invoice_line_ids" t-as="line">
+                                        <tr>
+                                            <td><t t-esc="line_num"/></td>
+                                            <td><span t-field="line.name"/></td>
+                                            <td class="text-right"><span t-field="line.quantity"/></td>
+                                            <td><span t-field="line.product_uom_id.name"/></td>
+                                            <td class="text-right">
+                                                <span t-field="line.price_unit" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="line.price_subtotal" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                        <t t-set="line_num" t-value="line_num + 1"/>
+                                    </t>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4"></td>
+                                        <td class="text-right"><strong>-25% ADVANCE</strong></td>
+                                        <td class="text-right">
+                                            <span t-esc="o.amount_untaxed * 0.25" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4"></td>
+                                        <td class="text-right"><strong>TOTAL B VAT</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.amount_untaxed" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4"></td>
+                                        <td class="text-right"><strong>VAT</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.amount_tax" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4"></td>
+                                        <td class="text-right"><strong>Total:</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.amount_total" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        
+                        <!-- Shipping Information -->
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <p><strong>PLACE OF TAKING IN CHARGE/DISPATCH FROM/PLACE OF RECEIPT</strong></p>
+                                <p t-if="o.partner_id.street" t-field="o.partner_id.street"/>
+                                <p t-if="o.partner_id.city" t-field="o.partner_id.city"/>
+                                <p t-if="o.partner_id.country_id" t-field="o.partner_id.country_id.name"/>
+                            </div>
+                            <div class="col-6">
+                                <p><strong>PLACE OF FINAL DESTINAT./FOR TRANSPORT.TO/PLACE OF DELIV.</strong></p>
+                                <p t-if="o.company_id.street" t-field="o.company_id.street"/>
+                                <p t-if="o.company_id.city" t-field="o.company_id.city"/>
+                                <p t-if="o.company_id.country_id" t-field="o.company_id.country_id.name"/>
+                            </div>
+                        </div>
+                        
+                        <!-- Signatures -->
+                        <div class="row mt-5">
+                            <div class="col-6">
+                                <p><strong>For <span t-field="o.partner_id.name"/></strong></p>
+                                <p><strong>Signature:</strong> _________________</p>
+                                <p><strong>Date:</strong> _________________</p>
+                            </div>
+                            <div class="col-6">
+                                <p><strong>For <span t-field="o.company_id.name"/></strong></p>
+                                <p><strong>Signature:</strong> _________________</p>
+                                <p><strong>Stamp:</strong> _________________</p>
+                                <p><strong>Date:</strong> _________________</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-3">
+                            <div class="col-12 text-center">
+                                <p><strong>CONFIRMING THAT GOODS HAVE BEEN DELIVERED IN GOOD ORDER AND CONDITION</strong></p>
+                            </div>
+                        </div>
+                        
+                        <!-- Footer -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <p t-field="o.company_id.name"/>
+                                <p t-if="o.company_id.phone">Tel.: <span t-field="o.company_id.phone"/></p>
+                                <p>
+                                    <span t-if="o.company_id.city" t-field="o.company_id.city"/>
+                                    <span t-if="o.company_id.zip"> - <span t-field="o.company_id.zip"/></span>
+                                </p>
+                                <p t-field="o.company_id.country_id.name"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

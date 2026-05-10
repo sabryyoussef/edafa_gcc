@@ -1,0 +1,20 @@
+Project: accounting_financial_report_19
+Database: accounting_financial_report_19_dev
+Port: 8021
+URL: http://localhost:8021
+
+Created: 2025-12-16
+Type: Accounting Financial Reports Project
+
+Custom Modules:
+- account_financial_report
+- date_range
+- report_xlsx
+
+Quick Start:
+  cd /home/sabry3/sabry_backup/odoo_base/base_odoo_19/projects/accounting_financial_report_19
+  ./scripts/start.sh
+
+  Access at: http://localhost:8021
+  Database: accounting_financial_report_19_dev
+
