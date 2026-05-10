@@ -260,8 +260,31 @@ class LaborAccrualBatch(models.Model):
             total = currency.round(total)
         return total
 
+    def _get_analytic_distribution_for_batch_line(self, batch_line):
+        """Resolve analytic_distribution dict for a single labor.accrual.batch.line.
+
+        Priority:
+          1. timesheet_line_id.account_id  (analytic account on the timesheet line itself)
+          2. project_id.account_id         (project analytic account, Odoo 19: project.account_id)
+          3. None                          (no analytic — entry still generated without error)
+
+        Returns dict like {"42": 100.0} or None.
+        """
+        ts = batch_line.timesheet_line_id
+        if ts and ts.account_id:
+            return {str(ts.account_id.id): 100.0}
+        project = batch_line.project_id
+        if project and project.account_id:
+            return {str(project.account_id.id): 100.0}
+        return None
+
     def _prepare_labor_accrual_move_vals(self, debit_account, credit_account, journal, total):
-        """Build vals for one miscellaneous entry: aggregate debit / credit (Phase 1)."""
+        """Build vals for one miscellaneous entry.
+
+        Debit side: one line per unique analytic distribution group (grouped from batch lines).
+        Credit side: one aggregated offset line without analytic (clearing/WIP account).
+        Rounding: last debit group absorbs any cent difference so debit total == credit total.
+        """
         self.ensure_one()
         company = self.company_id
         currency = company.currency_id
@@ -285,11 +308,54 @@ class LaborAccrualBatch(models.Model):
             "total": total,
             "cur": currency.name if currency else "",
         }
-        line_name_debit = _("Labor accrual expense (batch total)")
-        line_name_credit = _("Labor accrual offset (batch total)")
         line_common = {
             "currency_id": currency.id if currency else False,
         }
+
+        # Group batch lines by analytic distribution key so each analytic gets its own debit line.
+        # key: tuple of sorted distribution items (hashable) → [running_amount, dist_dict_or_None]
+        analytic_groups = {}
+        for batch_line in self.line_ids:
+            dist = self._get_analytic_distribution_for_batch_line(batch_line)
+            group_key = tuple(sorted(dist.items())) if dist else None
+            if group_key not in analytic_groups:
+                analytic_groups[group_key] = [0.0, dist]
+            analytic_groups[group_key][0] += batch_line.amount
+
+        # Round each group amount; adjust the last group to guarantee debit == credit.
+        group_entries = list(analytic_groups.values())
+        if currency:
+            for entry in group_entries:
+                entry[0] = currency.round(entry[0])
+            rounded_sum = sum(e[0] for e in group_entries)
+            if rounded_sum != total and group_entries:
+                group_entries[-1][0] = currency.round(
+                    group_entries[-1][0] + (total - rounded_sum)
+                )
+
+        line_ids = []
+        for group_amount, dist in group_entries:
+            debit_line = {
+                **line_common,
+                "account_id": debit_account.id,
+                "name": _("Labor accrual expense (batch total)"),
+                "debit": group_amount,
+                "credit": 0.0,
+            }
+            if dist:
+                debit_line["analytic_distribution"] = dist
+            line_ids.append((0, 0, debit_line))
+
+        line_ids.append((
+            0, 0, {
+                **line_common,
+                "account_id": credit_account.id,
+                "name": _("Labor accrual offset (batch total)"),
+                "debit": 0.0,
+                "credit": total,
+            }
+        ))
+
         return {
             "move_type": "entry",
             "journal_id": journal.id,
@@ -298,30 +364,7 @@ class LaborAccrualBatch(models.Model):
             "date": self.period_end,
             "ref": ref[:256] if len(ref) > 256 else ref,
             "narration": narration,
-            "line_ids": [
-                (
-                    0,
-                    0,
-                    {
-                        **line_common,
-                        "account_id": debit_account.id,
-                        "name": line_name_debit,
-                        "debit": total,
-                        "credit": 0.0,
-                    },
-                ),
-                (
-                    0,
-                    0,
-                    {
-                        **line_common,
-                        "account_id": credit_account.id,
-                        "name": line_name_credit,
-                        "debit": 0.0,
-                        "credit": total,
-                    },
-                ),
-            ],
+            "line_ids": line_ids,
         }
 
     def action_generate_draft_move(self):
